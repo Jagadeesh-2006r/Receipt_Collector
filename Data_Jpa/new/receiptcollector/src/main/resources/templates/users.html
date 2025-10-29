@@ -15,6 +15,7 @@
             <th>Email</th>
             <th>Contact No</th>
             <th>Join Date</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -24,6 +25,14 @@
             <td th:text="${user.email}"></td>
             <td th:text="${user.contactNo}"></td>
             <td th:text="${user.joinDate}"></td>
+            <td>
+                <a th:href="@{/users/edit/{id}(id=${user.userId})}" class="btn btn-warning btn-sm">Edit</a>
+                <form th:action="@{/users/delete/{id}(id=${user.userId})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this user?')">Delete</button>
+                </form>
+
+
+            </td>
         </tr>
         </tbody>
     </table>

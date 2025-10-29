@@ -44,4 +44,7 @@ public class ReceiptService {
     }
 
 
+    public void deleteReceiptById(Integer id) {
+        receiptRepository.deleteById(id);
+    }
 }

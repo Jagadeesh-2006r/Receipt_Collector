@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Interview - Campus Placement System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">
+                <i class="fas fa-graduation-cap me-2"></i>Campus Placement System
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" th:href="@{/officer/dashboard}">Dashboard</a>
+                <a class="nav-link" th:href="@{/officer/interviews}">Interviews</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2><i class="fas fa-edit me-2"></i>Update Interview Result</h2>
+        
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5>Interview Details</h5>
+                <p class="mb-0">
+                    <strong>Student:</strong> <span th:text="${interview.student.name}">Student</span> | 
+                    <strong>Job:</strong> <span th:text="${interview.job.position + ' at ' + interview.job.companyName}">Job</span> | 
+                    <strong>Round:</strong> <span th:text="${interview.roundNumber}">1</span>
+                </p>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/officer/interviews/{id}/update(id=${interview.interviewId})}" method="post">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Interview Result</label>
+                            <select name="result" class="form-select" required>
+                                <option value="SCHEDULED">Scheduled</option>
+                                <option value="COMPLETED">Completed</option>
+                                <option value="PASSED">Passed</option>
+                                <option value="FAILED">Failed</option>
+                                <option value="NO_SHOW">No Show</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Score (0-100)</label>
+                            <input type="number" name="score" class="form-control" min="0" max="100" 
+                                   th:value="${interview.score}">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Feedback</label>
+                        <textarea name="feedback" class="form-control" rows="4" 
+                                  th:text="${interview.feedback}" 
+                                  placeholder="Enter interview feedback..."></textarea>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Update Interview
+                        </button>
+                        <a th:href="@{/officer/interviews}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

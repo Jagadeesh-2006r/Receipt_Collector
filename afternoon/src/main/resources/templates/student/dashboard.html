@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Campus Placement System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">
+                <i class="fas fa-graduation-cap me-2"></i>Campus Placement System
+            </a>
+            
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user me-1"></i>
+                        <span th:text="${student.name}">Student</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/student/profile}">
+                            <i class="fas fa-user-edit me-2"></i>Profile
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" th:href="@{/logout}">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">
+                    <i class="fas fa-tachometer-alt me-2"></i>Student Dashboard
+                </h2>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${#lists.size(eligibleJobs)}">0</h4>
+                                <p class="mb-0">Eligible Jobs</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-briefcase fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${#lists.size(applications)}">0</h4>
+                                <p class="mb-0">Applications</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-file-alt fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${#lists.size(upcomingInterviews)}">0</h4>
+                                <p class="mb-0">Interviews</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-calendar-alt fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${student.cgpa ?: 'N/A'}">N/A</h4>
+                                <p class="mb-0">CGPA</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-star fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Cards -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-briefcase fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Browse Jobs</h5>
+                        <p class="card-text">View and apply for jobs that match your profile and eligibility criteria.</p>
+                        <a th:href="@{/student/jobs}" class="btn btn-primary">
+                            <i class="fas fa-search me-2"></i>View Jobs
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-file-alt fa-3x text-success mb-3"></i>
+                        <h5 class="card-title">My Applications</h5>
+                        <p class="card-text">Track the status of your job applications and view feedback from recruiters.</p>
+                        <a th:href="@{/student/applications}" class="btn btn-success">
+                            <i class="fas fa-list me-2"></i>View Applications
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-calendar-alt fa-3x text-info mb-3"></i>
+                        <h5 class="card-title">Interviews</h5>
+                        <p class="card-text">View your scheduled interviews and prepare for upcoming rounds.</p>
+                        <a th:href="@{/student/interviews}" class="btn btn-info">
+                            <i class="fas fa-calendar me-2"></i>View Interviews
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Jobs -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-briefcase me-2"></i>Recent Eligible Jobs
+                        </h5>
+                        <a th:href="@{/student/jobs}" class="btn btn-sm btn-outline-primary">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${#lists.isEmpty(eligibleJobs)}" class="text-center py-4">
+                            <i class="fas fa-briefcase fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">No eligible jobs available at the moment.</p>
+                            <p class="text-muted">Make sure your profile is complete to see more opportunities.</p>
+                            <a th:href="@{/test/create-sample-data}" class="btn btn-sm btn-outline-info">Create Sample Data</a>
+                        </div>
+                        
+                        <div th:unless="${#lists.isEmpty(eligibleJobs)}">
+                            <div class="row">
+                                <div class="col-md-6 mb-3" th:each="job, iterStat : ${eligibleJobs}" th:if="${iterStat.index < 4}">
+                                    <div class="card border-start border-primary border-4">
+                                        <div class="card-body">
+                                            <h6 class="card-title" th:text="${job.position}">Position</h6>
+                                            <p class="card-text">
+                                                <strong th:text="${job.companyName}">Company</strong><br>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-map-marker-alt me-1"></i>
+                                                    <span th:text="${job.location ?: 'Location not specified'}">Location</span>
+                                                </small><br>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-calendar me-1"></i>
+                                                    Deadline: <span th:text="${#temporals.format(job.deadline, 'dd MMM yyyy')}">Date</span>
+                                                </small>
+                                            </p>
+                                            <a th:href="@{/student/jobs/{id}(id=${job.jobId})}" class="btn btn-sm btn-primary">
+                                                View Details
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -13,23 +13,25 @@
             <th>Category ID</th>
             <th>Name</th>
             <th>Description</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tbody>
-    <tr th:each="cat : ${categories}">
-        <td th:text="${cat.categoryId}"></td>
-        <td th:text="${cat.name}"></td>
-        <td th:text="${cat.description}"></td>
-    </tr>
+        <tr th:each="cat : ${categories}">
+            <td th:text="${cat.categoryId}"></td>
+            <td th:text="${cat.name}"></td>
+            <td th:text="${cat.description}"></td>
+            <td>
+                <a th:href="@{/categories/edit/{id}(id=${cat.categoryId})}" class="btn btn-warning btn-sm">Edit</a>
+                <form th:action="@{/categories/delete/{id}(id=${cat.categoryId})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this category?')">Delete</button>
+                </form>
 
-    </tbody>
-
+            </td>
+        </tr>
         </tbody>
     </table>
     <a href="/category_add" class="btn btn-success mt-2">Add Category</a>
-
-
 </div>
 </body>
 </html>

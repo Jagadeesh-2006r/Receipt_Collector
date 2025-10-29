@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Officer Dashboard - Campus Placement System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">
+                <i class="fas fa-graduation-cap me-2"></i>Campus Placement System
+            </a>
+            
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user me-1"></i>
+                        <span th:text="${officer.name}">Officer</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/logout}">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">
+                    <i class="fas fa-tachometer-alt me-2"></i>Placement Officer Dashboard
+                </h2>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${#lists.size(activeJobs)}">0</h4>
+                                <p class="mb-0">Active Jobs</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-briefcase fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${#lists.size(shortlistedApplications)}">0</h4>
+                                <p class="mb-0">Shortlisted</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-star fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${#lists.size(scheduledInterviews)}">0</h4>
+                                <p class="mb-0">Interviews</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-calendar-alt fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 th:text="${placementStats.totalPlacements ?: 0}">0</h4>
+                                <p class="mb-0">Placements</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-trophy fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Cards -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-calendar-plus fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Schedule Interview</h5>
+                        <p class="card-text">Schedule interview rounds for shortlisted candidates.</p>
+                        <a th:href="@{/officer/interviews/schedule}" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Schedule Interview
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-trophy fa-3x text-success mb-3"></i>
+                        <h5 class="card-title">Finalize Placement</h5>
+                        <p class="card-text">Record final placement decisions and offer details.</p>
+                        <a th:href="@{/officer/placements/finalize}" class="btn btn-success">
+                            <i class="fas fa-check me-2"></i>Finalize Placement
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-chart-bar fa-3x text-info mb-3"></i>
+                        <h5 class="card-title">View Reports</h5>
+                        <p class="card-text">Generate comprehensive placement reports and analytics.</p>
+                        <a th:href="@{/officer/reports}" class="btn btn-info">
+                            <i class="fas fa-chart-line me-2"></i>View Reports
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-tasks me-2"></i>Quick Actions
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            <a th:href="@{/officer/applications}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-file-alt me-2"></i>Manage Applications
+                            </a>
+                            <a th:href="@{/officer/interviews}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-calendar-alt me-2"></i>Manage Interviews
+                            </a>
+                            <a th:href="@{/officer/placements}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-trophy me-2"></i>View Placements
+                            </a>
+                            <a th:href="@{/officer/students}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-users me-2"></i>Manage Students
+                            </a>
+                            <a th:href="@{/officer/jobs}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-briefcase me-2"></i>View All Jobs
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-chart-pie me-2"></i>Placement Statistics
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-6 mb-3">
+                                <h4 class="text-primary" th:text="${placementStats.totalPlacements ?: 0}">0</h4>
+                                <small class="text-muted">Total Placements</small>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h4 class="text-success" th:text="${placementStats.averageSalary != null ? '₹' + placementStats.averageSalary + ' LPA' : 'N/A'}">N/A</h4>
+                                <small class="text-muted">Average Salary</small>
+                            </div>
+                        </div>
+                        
+                        <div th:if="${placementStats.companyWisePlacements}" class="mt-3">
+                            <h6>Top Companies:</h6>
+                            <div th:each="entry : ${placementStats.companyWisePlacements}" class="d-flex justify-content-between">
+                                <span th:text="${entry.key}">Company</span>
+                                <span class="badge bg-primary" th:text="${entry.value}">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

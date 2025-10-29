@@ -7,6 +7,8 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 @Data
+
+
 public class User {
     public Integer getUserId() {
         return userId;

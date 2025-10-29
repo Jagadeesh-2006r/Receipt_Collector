@@ -14,6 +14,33 @@ public class Receipt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer receipt_id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private ReceiptCategory category;
+
+    @Column(length = 100)
+    private String vendorname;
+
+    @Column(nullable = false)
+    private BigDecimal amount;
+
+    private Date purchase_date;
+    private Timestamp upload_date;
+
+    private Integer fileId;
+
+    @Column(length = 255)
+    private String filePath;   // use camelCase
+
+    @Column(columnDefinition = "TEXT")
+    private String notes;
+
+    // --- Getters and Setters (as provided) ---
+
     public Integer getReceipt_id() {
         return receipt_id;
     }
@@ -21,7 +48,6 @@ public class Receipt {
     public void setReceipt_id(Integer receipt_id) {
         this.receipt_id = receipt_id;
     }
-    private Integer fileId;
 
     public Integer getFileId() {
         return fileId;
@@ -30,7 +56,6 @@ public class Receipt {
     public void setFileId(Integer fileId) {
         this.fileId = fileId;
     }
-
 
     public User getUser() {
         return user;
@@ -80,7 +105,9 @@ public class Receipt {
         this.upload_date = upload_date;
     }
 
+    public String getFilePath() { return filePath; }
 
+    public void setFilePath(String filePath) { this.filePath = filePath; }
 
     public String getNotes() {
         return notes;
@@ -89,34 +116,4 @@ public class Receipt {
     public void setNotes(String notes) {
         this.notes = notes;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    private ReceiptCategory category;
-
-    @Column(length = 100)
-    private String vendorname;
-
-    @Column(nullable = false)
-    private BigDecimal amount;
-
-    private Date purchase_date;
-
-    private Timestamp upload_date;
-
-    @Column(length = 255)
-    private String filePath;   // use camelCase
-
-    public String getFilePath() { return filePath; }
-    public void setFilePath(String filePath) { this.filePath = filePath; }
-
-
-
-
-    @Column(columnDefinition = "TEXT")
-    private String notes;
 }
