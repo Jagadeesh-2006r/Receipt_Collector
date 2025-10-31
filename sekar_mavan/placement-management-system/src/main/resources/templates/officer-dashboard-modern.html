@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Officer Dashboard</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        /* Navigation bar */
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-user span {
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .nav-user a {
+            color: #ef4444;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+
+        .nav-user a:hover {
+            background: #fef2f2;
+        }
+
+        /* Main layout */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: fit-content;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #64748b;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: #f1f5f9;
+            color: #3b82f6;
+        }
+
+        /* Content area */
+        .content {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+        }
+
+        .content-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-subtitle {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        /* Stats grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .stat-card.primary::before { background: #3b82f6; }
+        .stat-card.success::before { background: #10b981; }
+        .stat-card.warning::before { background: #f59e0b; }
+        .stat-card.info::before { background: #06b6d4; }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card.primary .stat-icon { background: #dbeafe; color: #3b82f6; }
+        .stat-card.success .stat-icon { background: #d1fae5; color: #10b981; }
+        .stat-card.warning .stat-icon { background: #fef3c7; color: #f59e0b; }
+        .stat-card.info .stat-icon { background: #cffafe; color: #06b6d4; }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Action cards */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .action-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .action-card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        .btn-info {
+            background: #06b6d4;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #0891b2;
+            transform: translateY(-1px);
+        }
+
+        /* Activity feed */
+        .activity-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-time {
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        .activity-text {
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/dashboard" class="nav-brand">Campus Placement</a>
+            <div class="nav-user">
+                <span th:text="'Welcome, ' + ${user.fullName}">Welcome, Officer</span>
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3 class="sidebar-title">Navigation</h3>
+            <ul class="sidebar-nav">
+                <li><a href="/dashboard" class="active">📊 Dashboard</a></li>
+                <li><a href="/jobs">💼 Manage Jobs</a></li>
+                <li><a href="/applications">📝 Applications</a></li>
+                <li><a href="/interviews">🎯 Interviews</a></li>
+                <li><a href="/students">👥 Students</a></li>
+                <li><a href="/reports">📈 Reports</a></li>
+            </ul>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="content">
+            <div class="content-header">
+                <h1 class="content-title">Dashboard Overview</h1>
+                <p class="content-subtitle">Monitor and manage placement activities</p>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card primary">
+                    <div class="stat-icon">💼</div>
+                    <div class="stat-number" th:text="${totalJobs}">0</div>
+                    <div class="stat-label">Total Jobs</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-number" th:text="${totalStudents}">0</div>
+                    <div class="stat-label">Total Students</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-number" th:text="${pendingApplications}">0</div>
+                    <div class="stat-label">Pending Applications</div>
+                </div>
+                <div class="stat-card info">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-number" th:text="${scheduledInterviews}">0</div>
+                    <div class="stat-label">Scheduled Interviews</div>
+                </div>
+            </div>
+
+            <!-- Action Cards -->
+            <div class="action-grid">
+                <div class="action-card">
+                    <h3 class="action-card-title">Quick Actions</h3>
+                    <div class="action-buttons">
+                        <a href="/applications" class="btn btn-primary">Review Applications</a>
+                        <a href="/interviews" class="btn btn-success">Schedule Interviews</a>
+                        <a href="/reports" class="btn btn-info">Generate Reports</a>
+                    </div>
+                </div>
+
+                <div class="action-card">
+                    <h3 class="action-card-title">Recent Activity</h3>
+                    <div class="activity-item">
+                        <div class="activity-time">2 hours ago</div>
+                        <div class="activity-text">New application received for Software Developer position</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-time">4 hours ago</div>
+                        <div class="activity-text">Interview scheduled for John Doe</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-time">1 day ago</div>
+                        <div class="activity-text">New job posting approved</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Add smooth interactions
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Simulate real-time updates (optional)
+        function updateStats() {
+            const numbers = document.querySelectorAll('.stat-number');
+            numbers.forEach(num => {
+                num.classList.add('loading');
+                setTimeout(() => {
+                    num.classList.remove('loading');
+                }, 1000);
+            });
+        }
+
+        // Update stats every 30 seconds (optional)
+        // setInterval(updateStats, 30000);
+    </script>
+</body>
+</html>

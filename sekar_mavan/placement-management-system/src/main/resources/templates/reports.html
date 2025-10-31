@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Reports</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Campus Placement</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+                <span class="navbar-text me-3" th:text="'Welcome, ' + ${user.fullName}"></span>
+                <a class="nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <h2>Placement Reports</h2>
+        
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card bg-primary text-white">
+                    <div class="card-body text-center">
+                        <h3 th:text="${totalPlacements}">0</h3>
+                        <p>Total Placements</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-success text-white">
+                    <div class="card-body text-center">
+                        <h3 th:text="${companyStats.size()}">0</h3>
+                        <p>Companies Participated</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-info text-white">
+                    <div class="card-body text-center">
+                        <h3>85%</h3>
+                        <p>Placement Rate</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Company-wise Placements</h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${companyStats.empty}" class="text-center">
+                            <p class="text-muted">No placement data available</p>
+                        </div>
+                        <div th:if="${!companyStats.empty}">
+                            <div th:each="stat : ${companyStats}" class="d-flex justify-content-between mb-2">
+                                <span th:text="${stat[0]}"></span>
+                                <span class="badge bg-primary" th:text="${stat[1]}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Recent Placements</h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${placements.empty}" class="text-center">
+                            <p class="text-muted">No recent placements</p>
+                        </div>
+                        <div th:if="${!placements.empty}">
+                            <div th:each="placement : ${placements}" class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <strong th:text="${placement.student.fullName}"></strong><br>
+                                        <small class="text-muted" th:text="${placement.job.companyName}"></small>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="badge bg-success">Placed</span><br>
+                                        <small th:text="${#temporals.format(placement.placedAt, 'dd-MM-yyyy')}"></small>
+                                    </div>
+                                </div>
+                                <hr th:unless="${placementStat.last}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

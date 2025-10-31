@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Applications Test</title>
+</head>
+<body>
+    <h1>Applications Page</h1>
+    <p>User: <span th:text="${user.fullName}">Test User</span></p>
+    <p>Role: <span th:text="${user.role}">STUDENT</span></p>
+    <p>Applications count: <span th:text="${applications.size()}">0</span></p>
+    <a href="/dashboard">Back to Dashboard</a>
+</body>
+</html>
