@@ -7,6 +7,11 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 @Data
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 4810415 (Add Maven Wrapper for Render deployment)
 public class User {
     public Integer getUserId() {
         return userId;

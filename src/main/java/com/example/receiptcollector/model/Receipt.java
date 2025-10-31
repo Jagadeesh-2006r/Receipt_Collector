@@ -14,6 +14,36 @@ public class Receipt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer receipt_id;
 
+<<<<<<< HEAD
+=======
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private ReceiptCategory category;
+
+    @Column(length = 100)
+    private String vendorname;
+
+    @Column(nullable = false)
+    private BigDecimal amount;
+
+    private Date purchase_date;
+    private Timestamp upload_date;
+
+    private Integer fileId;
+
+    @Column(length = 255)
+    private String filePath;   // use camelCase
+
+    @Column(columnDefinition = "TEXT")
+    private String notes;
+
+    // --- Getters and Setters (as provided) ---
+
+>>>>>>> 4810415 (Add Maven Wrapper for Render deployment)
     public Integer getReceipt_id() {
         return receipt_id;
     }
@@ -21,7 +51,10 @@ public class Receipt {
     public void setReceipt_id(Integer receipt_id) {
         this.receipt_id = receipt_id;
     }
+<<<<<<< HEAD
     private Integer fileId;
+=======
+>>>>>>> 4810415 (Add Maven Wrapper for Render deployment)
 
     public Integer getFileId() {
         return fileId;
@@ -31,7 +64,10 @@ public class Receipt {
         this.fileId = fileId;
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4810415 (Add Maven Wrapper for Render deployment)
     public User getUser() {
         return user;
     }
@@ -80,7 +116,13 @@ public class Receipt {
         this.upload_date = upload_date;
     }
 
+<<<<<<< HEAD
 
+=======
+    public String getFilePath() { return filePath; }
+
+    public void setFilePath(String filePath) { this.filePath = filePath; }
+>>>>>>> 4810415 (Add Maven Wrapper for Render deployment)
 
     public String getNotes() {
         return notes;
@@ -89,6 +131,7 @@ public class Receipt {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+<<<<<<< HEAD
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -119,4 +162,6 @@ public class Receipt {
 
     @Column(columnDefinition = "TEXT")
     private String notes;
+=======
+>>>>>>> 4810415 (Add Maven Wrapper for Render deployment)
 }

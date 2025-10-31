@@ -44,4 +44,10 @@ public class ReceiptService {
     }
 
 
+<<<<<<< HEAD
+=======
+    public void deleteReceiptById(Integer id) {
+        receiptRepository.deleteById(id);
+    }
+>>>>>>> 4810415 (Add Maven Wrapper for Render deployment)
 }

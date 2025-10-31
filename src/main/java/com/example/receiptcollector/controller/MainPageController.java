@@ -1,8 +1,15 @@
 package com.example.receiptcollector.controller;
+<<<<<<< HEAD
 
 import com.example.receiptcollector.model.Receipt;
 import com.example.receiptcollector.model.ReceiptCategory;
 import com.example.receiptcollector.model.User;
+=======
+import com.example.receiptcollector.model.Receipt;
+import com.example.receiptcollector.model.ReceiptCategory;
+import com.example.receiptcollector.model.User;
+import com.example.receiptcollector.repository.UserRepository;
+>>>>>>> 4810415 (Add Maven Wrapper for Render deployment)
 import com.example.receiptcollector.service.ReceiptCategoryService;
 import com.example.receiptcollector.service.ReceiptService;
 import com.example.receiptcollector.service.UserService;
@@ -15,10 +22,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+<<<<<<< HEAD
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+=======
+import java.io.File;
+import java.io.IOException;
+>>>>>>> 4810415 (Add Maven Wrapper for Render deployment)
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -26,8 +38,17 @@ import java.util.Optional;
 
 @Controller
 public class MainPageController {
+<<<<<<< HEAD
     @Autowired
     private UserService userService;
+=======
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+>>>>>>> 4810415 (Add Maven Wrapper for Render deployment)
     private final ReceiptCategoryService receiptCategoryService;
     private final ReceiptService receiptService;
 
@@ -41,7 +62,10 @@ public class MainPageController {
     public String home() {
         return "index";
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4810415 (Add Maven Wrapper for Render deployment)
     // UPDATE your /users method so it adds all users to the model:
     @GetMapping("/users")
     public String users(Model model) {
@@ -80,9 +104,12 @@ public class MainPageController {
     }
 
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 4810415 (Add Maven Wrapper for Render deployment)
     @GetMapping("/receipt_upload")
     public String receiptUpload(Model model) {
         model.addAttribute("receipt", new Receipt());
@@ -164,14 +191,71 @@ public class MainPageController {
             e.printStackTrace();
             // Handle the error, maybe retain original upload page with message
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4810415 (Add Maven Wrapper for Render deployment)
         // Save receipt entity to DB with updated filePath
         receiptService.saveReceipt(receipt, file);
 
         return "redirect:/receipts";
     }
 
+<<<<<<< HEAD
 
 
+=======
+    @PutMapping("/users/edit/{id}")
+    public String updateUser(@PathVariable Integer id, @ModelAttribute User user) {
+        userService.updateUserById(id, user);
+        return "redirect:/users";
+    }
+
+
+    @PostMapping("/users/delete/{id}")
+    public String deleteUser(@PathVariable Integer id) {
+        userService.deleteUserById(id);
+        return "redirect:/users";
+    }
+
+    @GetMapping("/users/edit/{id}")
+    public String showEditUserForm(@PathVariable Integer id, Model model) {
+        User user = userService.listUsers()
+                .stream()
+                .filter(u -> u.getUserId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user id: " + id));
+        model.addAttribute("user", user);
+        return "user_edit";
+    }
+
+    // For editing categories
+    @GetMapping("/categories/edit/{id}")
+    public String showEditCategoryForm(@PathVariable Integer id, Model model) {
+        ReceiptCategory category = receiptCategoryService.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category id: " + id));
+        model.addAttribute("category", category);
+        return "category_edit";
+    }
+
+    @PostMapping("/categories/edit/{id}")
+    public String updateCategory(@PathVariable Integer id, @ModelAttribute ReceiptCategory category) {
+        receiptCategoryService.updateCategoryById(id, category);
+        return "redirect:/categories";
+    }
+
+    // For deleting categories
+    @PostMapping("/categories/delete/{id}")
+    public String deleteCategory(@PathVariable Integer id) {
+        receiptCategoryService.deleteCategoryById(id);
+        return "redirect:/categories";
+    }
+
+    @PostMapping("/receipts/delete/{id}")
+    public String deleteReceipt(@PathVariable Integer id) {
+        receiptService.deleteReceiptById(id);
+        return "redirect:/receipts";
+    }
+>>>>>>> 4810415 (Add Maven Wrapper for Render deployment)
 
 }

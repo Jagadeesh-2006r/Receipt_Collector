@@ -8,7 +8,13 @@ import java.util.Optional;
 public interface ReceiptRepository extends JpaRepository<Receipt, Integer> {
     List<Receipt> findByUser_UserId(Integer userId);      // userId matches Java property in User class
     List<Receipt> findByCategory_CategoryId(Integer categoryId);  // categoryId matches Java property in ReceiptCategory
+<<<<<<< HEAD
 
   //  <Receipt>findByFileId(Integer id);
+=======
+    List<Receipt> findByUserUserId(Integer userId);
+    void deleteByUserUserId(Integer userId);
+
+>>>>>>> 4810415 (Add Maven Wrapper for Render deployment)
 }
 
